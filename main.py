@@ -1,5 +1,6 @@
 
 from modules.storage import initialize_data_files
+from modules.fintrack import transaction_menu
 
 
 def show_main_menu():
@@ -7,9 +8,11 @@ def show_main_menu():
     print("             SEHARI-HARI")
     print("       Daily Life Management System")
     print("=" * 45)
+
     print("1. FinTrack")
     print("2. Daily Task Manager")
     print("0. Exit")
+
     print("=" * 45)
 
 
@@ -22,7 +25,7 @@ def main():
         choice = input("Pilih menu: ").strip()
 
         if choice == "1":
-            print("\nFinTrack akan segera tersedia.")
+            transaction_menu()
 
         elif choice == "2":
             print("\nDaily Task Manager akan segera tersedia.")

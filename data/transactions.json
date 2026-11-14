@@ -1,7 +1,10 @@
 [
     {
-        "id": "TEST001",
-        "name": "Data Percobaan",
-        "amount": 100000
+        "id": "TRX001",
+        "type": "income",
+        "category": "Pulsa / Kuota",
+        "description": "Pulsa / Kuota Bulan September",
+        "amount": 75000,
+        "date": "2026-11-14"
     }
 ]
