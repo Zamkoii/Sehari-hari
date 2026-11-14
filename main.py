@@ -1,4 +1,7 @@
 
+from modules.storage import initialize_data_files
+
+
 def show_main_menu():
     print("\n" + "=" * 45)
     print("             SEHARI-HARI")
@@ -11,6 +14,8 @@ def show_main_menu():
 
 
 def main():
+    initialize_data_files()
+
     while True:
         show_main_menu()
 
