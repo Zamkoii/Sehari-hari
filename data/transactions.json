@@ -14,5 +14,13 @@
         "description": "Jajan hari sabtu beli roti",
         "amount": 24000,
         "date": "2026-11-14"
+    },
+    {
+        "id": "TRX003",
+        "type": "expense",
+        "category": "makanan",
+        "description": "makan malam",
+        "amount": 25000,
+        "date": "2026-11-16"
     }
 ]

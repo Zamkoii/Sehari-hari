@@ -1,1 +1,9 @@
-[]
+[
+    {
+        "id": "SAV001",
+        "name": "Beli laptop",
+        "target_amount": 4000000,
+        "current_amount": 100000,
+        "deadline": "2027-02-02"
+    }
+]

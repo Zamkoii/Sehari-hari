@@ -2,6 +2,7 @@
 from datetime import datetime
 from modules.storage import load_data, save_data
 from modules.budget import budget_menu
+from modules.savings_goals import savings_goals_menu
 
 # ==========================================
 # HELPER FUNCTIONS
@@ -293,6 +294,7 @@ def transaction_menu():
 
         print("1. Transaction Management")
         print("2. Budget Management")
+        print("3. Savings Goals")
         print("0. Kembali ke Menu Utama")
 
         print("=" * 45)
@@ -304,6 +306,9 @@ def transaction_menu():
 
         elif choice == "2":
             budget_menu()
+
+        elif choice == "3":
+            savings_goals_menu()
 
         elif choice == "0":
             break
