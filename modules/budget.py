@@ -309,22 +309,13 @@ def view_budget_report():
         print("Anggaran :", format_rupiah(budget["amount"]))
         print("Terpakai :", format_rupiah(spending))
         print("Penggunaan:", f"{percentage:.1f}%")
-
         if status == "Melewati batas":
             print("PERINGATAN: Pengeluaran telah melewati anggaran!")
-
         elif status == "Hampir habis":
             print("PERINGATAN: Anggaran sudah mencapai 80% atau lebih!")
-
         else:
             print("Status: Penggunaan anggaran masih aman.")
-
     print("-" * 50)
-
-
-# ==========================================
-# BUDGET MANAGEMENT MENU
-# ==========================================
 
 def budget_menu():
 

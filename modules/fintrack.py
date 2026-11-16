@@ -1,7 +1,7 @@
 
 from datetime import datetime
 from modules.storage import load_data, save_data
-
+from modules.budget import budget_menu
 
 # ==========================================
 # HELPER FUNCTIONS
@@ -249,18 +249,18 @@ def delete_transaction():
 # FINTRACK MENU
 # ==========================================
 
-def transaction_menu():
+
+def transaction_management_menu():
     while True:
         print("\n" + "=" * 45)
-        print("             FINTRACK")
-        print("        TRANSACTION MANAGEMENT")
+        print("       TRANSACTION MANAGEMENT")
         print("=" * 45)
 
         print("1. Tambah Transaksi")
         print("2. Lihat Transaksi")
         print("3. Ubah Transaksi")
         print("4. Hapus Transaksi")
-        print("0. Kembali ke Menu Utama")
+        print("0. Kembali")
 
         print("=" * 45)
 
@@ -277,6 +277,33 @@ def transaction_menu():
 
         elif choice == "4":
             delete_transaction()
+
+        elif choice == "0":
+            break
+
+        else:
+            print("Pilihan tidak valid. Silakan coba lagi.")
+
+def transaction_menu():
+    while True:
+        print("\n" + "=" * 45)
+        print("                FINTRACK")
+        print("         PERSONAL FINANCE MANAGER")
+        print("=" * 45)
+
+        print("1. Transaction Management")
+        print("2. Budget Management")
+        print("0. Kembali ke Menu Utama")
+
+        print("=" * 45)
+
+        choice = input("Pilih menu: ").strip()
+
+        if choice == "1":
+            transaction_management_menu()
+
+        elif choice == "2":
+            budget_menu()
 
         elif choice == "0":
             break
