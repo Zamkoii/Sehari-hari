@@ -1,8 +1,9 @@
-
 from datetime import datetime
 from modules.storage import load_data, save_data
 from modules.budget import budget_menu
 from modules.savings_goals import savings_goals_menu
+from modules.dashboard import show_fintrack_dashboard, show_monthly_report
+
 
 # ==========================================
 # HELPER FUNCTIONS
@@ -10,7 +11,6 @@ from modules.savings_goals import savings_goals_menu
 
 def generate_transaction_id(transactions):
     """Membuat ID transaksi secara otomatis."""
-
     highest_id = 0
 
     for transaction in transactions:
@@ -26,7 +26,6 @@ def generate_transaction_id(transactions):
 
 def validate_date(date_text):
     """Memeriksa format tanggal YYYY-MM-DD."""
-
     try:
         datetime.strptime(date_text, "%Y-%m-%d")
         return True
@@ -36,7 +35,6 @@ def validate_date(date_text):
 
 def format_rupiah(amount):
     """Mengubah angka menjadi format Rupiah."""
-
     return "Rp" + f"{amount:,.0f}".replace(",", ".")
 
 
@@ -156,24 +154,15 @@ def update_transaction():
             print("\nTransaksi ditemukan!")
             print("Kosongkan input jika tidak ingin mengubah data.")
 
-            new_category = input(
-                "Kategori baru: "
-            ).strip()
-
+            new_category = input("Kategori baru: ").strip()
             if new_category:
                 transaction["category"] = new_category
 
-            new_description = input(
-                "Deskripsi baru: "
-            ).strip()
-
+            new_description = input("Deskripsi baru: ").strip()
             if new_description:
                 transaction["description"] = new_description
 
-            new_amount = input(
-                "Nominal baru: "
-            ).strip()
-
+            new_amount = input("Nominal baru: ").strip()
             if new_amount:
                 try:
                     amount = int(new_amount)
@@ -188,10 +177,7 @@ def update_transaction():
                     print("Nominal harus berupa angka bulat.")
                     return
 
-            new_date = input(
-                "Tanggal baru (YYYY-MM-DD): "
-            ).strip()
-
+            new_date = input("Tanggal baru (YYYY-MM-DD): ").strip()
             if new_date:
                 if not validate_date(new_date):
                     print("Format tanggal tidak valid.")
@@ -229,15 +215,12 @@ def delete_transaction():
             print("Deskripsi:", transaction["description"])
             print("Nominal:", format_rupiah(transaction["amount"]))
 
-            confirmation = input(
-                "Yakin ingin menghapus? (y/n): "
-            ).strip().lower()
+            confirmation = input("Yakin ingin menghapus? (y/n): ").strip().lower()
 
             if confirmation == "y":
                 transactions.remove(transaction)
                 save_data("transactions", transactions)
                 print("Transaksi berhasil dihapus!")
-
             else:
                 print("Penghapusan dibatalkan.")
 
@@ -249,7 +232,6 @@ def delete_transaction():
 # ==========================================
 # FINTRACK MENU
 # ==========================================
-
 
 def transaction_management_menu():
     while True:
@@ -269,21 +251,17 @@ def transaction_management_menu():
 
         if choice == "1":
             add_transaction()
-
         elif choice == "2":
             view_transactions()
-
         elif choice == "3":
             update_transaction()
-
         elif choice == "4":
             delete_transaction()
-
         elif choice == "0":
             break
-
         else:
             print("Pilihan tidak valid. Silakan coba lagi.")
+
 
 def transaction_menu():
     while True:
@@ -295,6 +273,8 @@ def transaction_menu():
         print("1. Transaction Management")
         print("2. Budget Management")
         print("3. Savings Goals")
+        print("4. Dashboard Keuangan")
+        print("5. Laporan Keuangan Bulanan")
         print("0. Kembali ke Menu Utama")
 
         print("=" * 45)
@@ -303,15 +283,15 @@ def transaction_menu():
 
         if choice == "1":
             transaction_management_menu()
-
         elif choice == "2":
             budget_menu()
-
         elif choice == "3":
             savings_goals_menu()
-
+        elif choice == "4":
+            show_fintrack_dashboard()
+        elif choice == "5":
+            show_monthly_report()
         elif choice == "0":
             break
-
         else:
             print("Pilihan tidak valid. Silakan coba lagi.")
