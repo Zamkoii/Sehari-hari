@@ -13,7 +13,7 @@ def generate_savings_id(goals):
         try:
             number = int(goal["id"][3:])
             numbers.append(number)
-        except (ValueError, KeyError):
+        except (ValueError, KeyError, TypeError):
             continue
 
     if not numbers:
@@ -26,6 +26,10 @@ def format_rupiah(amount):
     """Mengubah angka menjadi format Rupiah."""
     return f"Rp{amount:,.0f}".replace(",", ".")
 
+
+# ==========================================
+# CREATE SAVINGS GOAL
+# ==========================================
 
 def add_savings_goal():
     """Menambahkan target tabungan baru."""
@@ -42,7 +46,7 @@ def add_savings_goal():
         return
 
     try:
-        target_amount = int(input("Jumlah target (Rp): "))
+        target_amount = int(input("Jumlah target (Rp): ").strip())
 
         if target_amount <= 0:
             print("Jumlah target harus lebih dari 0.")
@@ -77,24 +81,10 @@ def add_savings_goal():
     print(f"Target    : {format_rupiah(target_amount)}")
     print(f"Deadline  : {deadline}")
 
-def savings_goals_menu():
-    """Menu utama pengelolaan target tabungan."""
-    while True:
-        print("\n" + "=" * 45)
-        print("           SAVINGS GOALS")
-        print("=" * 45)
-        print("1. Tambah Target Tabungan")
-        print("0. Kembali ke FinTrack")
-        print("=" * 45)
 
-        choice = input("Pilih menu: ").strip()
-
-        if choice == "1":
-            add_savings_goal()
-        elif choice == "0":
-            break
-        else:
-            print("Pilihan tidak valid. Silakan coba lagi.")    
+# ==========================================
+# READ SAVINGS GOALS
+# ==========================================
 
 def view_savings_goals():
     """Menampilkan seluruh target tabungan."""
@@ -113,23 +103,27 @@ def view_savings_goals():
         current = goal["current_amount"]
 
         progress = (current / target) * 100
-
         remaining = max(target - current, 0)
 
-        print(f"\nID Target       : {goal['id']}")
-        print(f"Nama            : {goal['name']}")
-        print(f"Target          : {format_rupiah(target)}")
+        print(f"\nID Target        : {goal['id']}")
+        print(f"Nama             : {goal['name']}")
+        print(f"Target           : {format_rupiah(target)}")
         print(f"Tabungan Saat Ini: {format_rupiah(current)}")
-        print(f"Sisa Target     : {format_rupiah(remaining)}")
-        print(f"Deadline        : {goal['deadline']}")
-        print(f"Progress        : {progress:.2f}%")
+        print(f"Sisa Target      : {format_rupiah(remaining)}")
+        print(f"Deadline         : {goal['deadline']}")
+        print(f"Progress         : {progress:.2f}%")
 
         if current >= target:
-            print("Status          : Target Tercapai")
+            print("Status           : Target Tercapai")
         else:
-            print("Status          : Dalam Proses")
+            print("Status           : Dalam Proses")
 
         print("-" * 55)
+
+
+# ==========================================
+# UPDATE SAVINGS GOAL (TAMBAH TABUNGAN)
+# ==========================================
 
 def add_savings_contribution():
     """Menambahkan uang ke target tabungan."""
@@ -144,7 +138,7 @@ def add_savings_contribution():
         return
 
     for goal in goals:
-        print(f"{goal['id']} - {goal['name']}")
+        print(f"{goal['id']} - {goal['name']} ({format_rupiah(goal['current_amount'])} / {format_rupiah(goal['target_amount'])})")
 
     goal_id = input("\nMasukkan ID target: ").strip().upper()
 
@@ -160,7 +154,7 @@ def add_savings_contribution():
         return
 
     try:
-        amount = int(input("Jumlah uang yang ditabung (Rp): "))
+        amount = int(input("Jumlah uang yang ditabung (Rp): ").strip())
 
         if amount <= 0:
             print("Jumlah uang harus lebih dari 0.")
@@ -171,26 +165,64 @@ def add_savings_contribution():
         return
 
     selected_goal["current_amount"] += amount
-
     save_data("savings_goals", goals)
 
     print("\nUang tabungan berhasil ditambahkan!")
-    print(f"Target       : {selected_goal['name']}")
-    print(f"Penambahan   : {format_rupiah(amount)}")
-    print(
-        f"Total Tabungan: "
-        f"{format_rupiah(selected_goal['current_amount'])}"
-    )
+    print(f"Target        : {selected_goal['name']}")
+    print(f"Penambahan    : {format_rupiah(amount)}")
+    print(f"Total Tabungan: {format_rupiah(selected_goal['current_amount'])}")
 
-    progress = (
-        selected_goal["current_amount"]
-        / selected_goal["target_amount"]
-    ) * 100
-
-    print(f"Progress     : {progress:.2f}%")
+    progress = (selected_goal["current_amount"] / selected_goal["target_amount"]) * 100
+    print(f"Progress      : {progress:.2f}%")
 
     if selected_goal["current_amount"] >= selected_goal["target_amount"]:
         print("Selamat! Target tabungan berhasil tercapai!")
+
+
+# ==========================================
+# DELETE SAVINGS GOAL
+# ==========================================
+
+def delete_savings_goal():
+    """Menghapus target tabungan berdasarkan ID."""
+    goals = load_data("savings_goals")
+
+    print("\n" + "=" * 45)
+    print("          HAPUS TARGET TABUNGAN")
+    print("=" * 45)
+
+    if not goals:
+        print("Belum ada target tabungan.")
+        return
+
+    for goal in goals:
+        print(f"{goal['id']} - {goal['name']} (Terkumpul: {format_rupiah(goal['current_amount'])})")
+
+    goal_id = input("\nMasukkan ID target yang ingin dihapus: ").strip().upper()
+
+    for goal in goals:
+        if goal["id"] == goal_id:
+            print("\nTarget ditemukan:")
+            print(f"Nama     : {goal['name']}")
+            print(f"Target   : {format_rupiah(goal['target_amount'])}")
+            print(f"Terkumpul: {format_rupiah(goal['current_amount'])}")
+
+            confirmation = input("Yakin ingin menghapus target ini? (y/n): ").strip().lower()
+
+            if confirmation == "y":
+                goals.remove(goal)
+                save_data("savings_goals", goals)
+                print("Target tabungan berhasil dihapus!")
+            else:
+                print("Penghapusan dibatalkan.")
+            return
+
+    print("Target tabungan tidak ditemukan.")
+
+
+# ==========================================
+# MENU SAVINGS GOALS
+# ==========================================
 
 def savings_goals_menu():
     """Menu utama pengelolaan target tabungan."""
@@ -201,6 +233,7 @@ def savings_goals_menu():
         print("1. Tambah Target Tabungan")
         print("2. Lihat Target Tabungan")
         print("3. Tambah Uang Tabungan")
+        print("4. Hapus Target Tabungan")
         print("0. Kembali ke FinTrack")
         print("=" * 45)
 
@@ -212,6 +245,8 @@ def savings_goals_menu():
             view_savings_goals()
         elif choice == "3":
             add_savings_contribution()
+        elif choice == "4":
+            delete_savings_goal()
         elif choice == "0":
             break
         else:

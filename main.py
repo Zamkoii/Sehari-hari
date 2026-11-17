@@ -2,7 +2,6 @@
 from modules.storage import initialize_data_files
 from modules.fintrack import transaction_menu
 
-
 def show_main_menu():
     print("\n" + "=" * 45)
     print("             SEHARI-HARI")
@@ -14,7 +13,6 @@ def show_main_menu():
     print("0. Exit")
 
     print("=" * 45)
-
 
 def main():
     initialize_data_files()

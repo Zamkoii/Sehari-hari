@@ -1,5 +1,3 @@
-
-import json
 from pathlib import Path
 
 
@@ -10,20 +8,53 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "data"
 
 
-# Daftar file JSON yang digunakan aplikasi
+# Daftar file TXT yang digunakan aplikasi
 DATA_FILES = {
-    "transactions": "transactions.json",
-    "budgets": "budgets.json",
-    "savings_goals": "savings_goals.json",
-    "tasks": "tasks.json"
+    "transactions": "transactions.txt",
+    "budgets": "budgets.txt",
+    "savings_goals": "savings_goals.txt",
+    "tasks": "tasks.txt"
 }
+
+# Definisi nama kolom (field) dan tipe datanya untuk setiap file .txt
+DATA_SCHEMAS = {
+    "transactions": [
+        ("id", str),
+        ("type", str),
+        ("category", str),
+        ("description", str),
+        ("amount", int),
+        ("date", str),
+    ],
+    "budgets": [
+        ("id", str),
+        ("category", str),
+        ("amount", int),
+    ],
+    "savings_goals": [
+        ("id", str),
+        ("name", str),
+        ("target_amount", int),
+        ("current_amount", int),
+        ("deadline", str),
+    ],
+    "tasks": [
+        ("id", str),
+        ("title", str),
+        ("description", str),
+        ("deadline", str),
+        ("priority", str),
+        ("status", str),
+    ],
+}
+
+DELIMITER = "|"
 
 
 def initialize_data_files():
     """
-    Membuat folder dan file JSON jika belum tersedia.
+    Membuat folder dan file TXT kosong jika belum tersedia.
     """
-
     DATA_DIR.mkdir(parents=True, exist_ok=True)
 
     for filename in DATA_FILES.values():
@@ -31,17 +62,15 @@ def initialize_data_files():
 
         if not file_path.exists():
             with open(file_path, "w", encoding="utf-8") as file:
-                json.dump([], file, indent=4)
+                file.write("")
 
-    print("Sistem penyimpanan berhasil disiapkan.")
+    print("Sistem penyimpanan (.txt) berhasil disiapkan.")
 
 
 def load_data(data_name):
     """
-    Membaca data dari file JSON.
-    Mengembalikan list berisi data.
+    Membaca data dari file TXT dan mengubahnya kembali menjadi list of dictionary.
     """
-
     if data_name not in DATA_FILES:
         raise ValueError("Nama data tidak dikenali.")
 
@@ -52,28 +81,42 @@ def load_data(data_name):
             f"File {file_path.name} tidak ditemukan."
         )
 
-    try:
-        with open(file_path, "r", encoding="utf-8") as file:
-            data = json.load(file)
+    schema = DATA_SCHEMAS[data_name]
+    records = []
 
-        if not isinstance(data, list):
-            raise ValueError(
-                f"Format data {file_path.name} harus berupa list."
-            )
+    with open(file_path, "r", encoding="utf-8") as file:
+        for line_number, raw_line in enumerate(file, start=1):
+            line = raw_line.strip()
 
-        return data
+            # Lewati baris kosong
+            if not line:
+                continue
 
-    except json.JSONDecodeError as error:
-        raise ValueError(
-            f"File {file_path.name} memiliki format JSON yang rusak."
-        ) from error
+            parts = line.split(DELIMITER)
+
+            if len(parts) != len(schema):
+                raise ValueError(
+                    f"Format baris ke-{line_number} pada {file_path.name} tidak valid."
+                )
+
+            item = {}
+            try:
+                for (field_name, field_type), value in zip(schema, parts):
+                    item[field_name] = field_type(value)
+            except ValueError as error:
+                raise ValueError(
+                    f"Tipe data tidak valid pada baris ke-{line_number} di {file_path.name}."
+                ) from error
+
+            records.append(item)
+
+    return records
 
 
 def save_data(data_name, data):
     """
-    Menyimpan list data ke file JSON.
+    Menyimpan list of dictionary ke dalam file TXT dengan pemisah '|'.
     """
-
     if data_name not in DATA_FILES:
         raise ValueError("Nama data tidak dikenali.")
 
@@ -81,9 +124,26 @@ def save_data(data_name, data):
         raise TypeError("Data yang disimpan harus berupa list.")
 
     file_path = DATA_DIR / DATA_FILES[data_name]
+    schema = DATA_SCHEMAS[data_name]
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-    with open(file_path, "w", encoding="utf-8") as file:
-        json.dump(data, file, indent=4, ensure_ascii=False)
+    lines = []
+    for item in data:
+        if not isinstance(item, dict):
+            raise TypeError("Setiap elemen data harus berupa dictionary.")
 
+        row_values = []
+        for field_name, _ in schema:
+            raw_value = str(item.get(field_name, ""))
+            # Mencegah karakter delimiter '|' atau baris baru merusak format file .txt
+            clean_value = raw_value.replace(DELIMITER, "/").replace("\n", " ").strip()
+            row_values.append(clean_value)
+
+        lines.append(DELIMITER.join(row_values))
+
+    with open(file_path, "w", encoding="utf-8") as file:
+        if lines:
+            file.write("\n".join(lines) + "\n")
+        else:
+            file.write("")
