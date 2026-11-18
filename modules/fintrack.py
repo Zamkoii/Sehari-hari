@@ -293,5 +293,5 @@ def transaction_menu():
             show_monthly_report()
         elif choice == "0":
             break
-        else:
+        else:   
             print("Pilihan tidak valid. Silakan coba lagi.")

@@ -1,6 +1,7 @@
-
 from modules.storage import initialize_data_files
 from modules.fintrack import transaction_menu
+from modules.task_manager import task_manager_menu
+
 
 def show_main_menu():
     print("\n" + "=" * 45)
@@ -14,6 +15,7 @@ def show_main_menu():
 
     print("=" * 45)
 
+
 def main():
     initialize_data_files()
 
@@ -26,7 +28,7 @@ def main():
             transaction_menu()
 
         elif choice == "2":
-            print("\nDaily Task Manager akan segera tersedia.")
+            task_manager_menu()
 
         elif choice == "0":
             print("\nTerima kasih telah menggunakan Sehari-Hari!")
