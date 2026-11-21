@@ -5,12 +5,9 @@ from utils.search_sort import (
     sort_tasks_by_deadline,
     sort_tasks_by_priority
 )
-
-
 # ==========================================
 # FUNGSI BANTUAN (HELPER)
 # ==========================================
-
 def generate_task_id(tasks):
     """Membuat ID tugas otomatis seperti TSK001, TSK002."""
     highest_id = 0
@@ -24,7 +21,6 @@ def generate_task_id(tasks):
             continue
 
     return f"TSK{highest_id + 1:03d}"
-
 
 def validate_date(date_text):
     """Memeriksa apakah format tanggal sesuai YYYY-MM-DD."""
@@ -53,7 +49,6 @@ def choose_priority():
     else:
         return None
 
-
 def print_task_list(task_list):
     """Menampilkan daftar tugas dalam format yang seragam."""
     for task in task_list:
@@ -65,7 +60,6 @@ def print_task_list(task_list):
         print("Prioritas :", task["priority"])
         print("Status    :", task["status"])
     print("-" * 45)
-
 
 # ==========================================
 # 1. CREATE TASK (TAMBAH TUGAS)
@@ -112,7 +106,6 @@ def add_task():
     print("ID Tugas :", new_task["id"])
     print("Judul    :", new_task["title"])
 
-
 # ==========================================
 # 2. READ TASKS (LIHAT DAFTAR TUGAS)
 # ==========================================
@@ -127,7 +120,6 @@ def view_tasks():
         return
 
     print_task_list(tasks)
-
 
 # ==========================================
 # 3. UPDATE TASK (UBAH DATA TUGAS)
@@ -181,7 +173,6 @@ def update_task():
 
     print("ID tugas tidak ditemukan.")
 
-
 # ==========================================
 # 4. UPDATE STATUS TUGAS (SELESAI / PENDING)
 # ==========================================
@@ -222,7 +213,6 @@ def toggle_task_status():
 
     print("ID tugas tidak ditemukan.")
 
-
 # ==========================================
 # 5. DELETE TASK (HAPUS TUGAS)
 # ==========================================
@@ -257,7 +247,6 @@ def delete_task():
             return
 
     print("ID tugas tidak ditemukan.")
-
 
 # ==========================================
 # 6. RINGKASAN AKTIVITAS HARIAN
@@ -294,7 +283,6 @@ def show_task_summary():
 
     print("=" * 48)
 
-
 # ==========================================
 # 7. CARI TUGAS (SEARCHING)
 # ==========================================
@@ -320,7 +308,6 @@ def search_tasks():
     else:
         print(f"\nDitemukan {len(results)} tugas:")
         print_task_list(results)
-
 
 # ==========================================
 # 8. URUTKAN TUGAS (SORTING)

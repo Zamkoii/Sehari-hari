@@ -3,12 +3,9 @@ from modules.storage import load_data, save_data
 from modules.budget import budget_menu
 from modules.savings_goals import savings_goals_menu
 from modules.dashboard import show_fintrack_dashboard, show_monthly_report
-
-
 # ==========================================
 # HELPER FUNCTIONS
 # ==========================================
-
 def generate_transaction_id(transactions):
     """Membuat ID transaksi secara otomatis."""
     highest_id = 0
@@ -23,7 +20,6 @@ def generate_transaction_id(transactions):
 
     return f"TRX{highest_id + 1:03d}"
 
-
 def validate_date(date_text):
     """Memeriksa format tanggal YYYY-MM-DD."""
     try:
@@ -32,11 +28,9 @@ def validate_date(date_text):
     except ValueError:
         return False
 
-
 def format_rupiah(amount):
     """Mengubah angka menjadi format Rupiah."""
     return "Rp" + f"{amount:,.0f}".replace(",", ".")
-
 
 # ==========================================
 # CREATE TRANSACTION
@@ -101,7 +95,6 @@ def add_transaction():
     print("\nTransaksi berhasil ditambahkan!")
     print("ID:", transaction["id"])
 
-
 # ==========================================
 # READ TRANSACTIONS
 # ==========================================
@@ -131,7 +124,6 @@ def view_transactions():
         print("Tanggal    :", transaction["date"])
 
     print("-" * 45)
-
 
 # ==========================================
 # UPDATE TRANSACTION
@@ -192,7 +184,6 @@ def update_transaction():
 
     print("Transaksi tidak ditemukan.")
 
-
 # ==========================================
 # DELETE TRANSACTION
 # ==========================================
@@ -228,7 +219,6 @@ def delete_transaction():
 
     print("Transaksi tidak ditemukan.")
 
-
 # ==========================================
 # FINTRACK MENU
 # ==========================================
@@ -262,7 +252,6 @@ def transaction_management_menu():
         else:
             print("Pilihan tidak valid. Silakan coba lagi.")
 
-
 def transaction_menu():
     while True:
         print("\n" + "=" * 45)
@@ -293,5 +282,5 @@ def transaction_menu():
             show_monthly_report()
         elif choice == "0":
             break
-        else:   
+        else:
             print("Pilihan tidak valid. Silakan coba lagi.")
