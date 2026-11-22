@@ -1,13 +1,9 @@
 from datetime import datetime
 from modules.storage import load_data, save_data
-from utils.search_sort import (
-    search_tasks_by_keyword,
-    sort_tasks_by_deadline,
-    sort_tasks_by_priority
-)
-# ==========================================
+from utils.search_sort import search_tasks_by_keyword
+
 # FUNGSI BANTUAN (HELPER)
-# ==========================================
+
 def generate_task_id(tasks):
     """Membuat ID tugas otomatis seperti TSK001, TSK002."""
     highest_id = 0
@@ -21,6 +17,7 @@ def generate_task_id(tasks):
             continue
 
     return f"TSK{highest_id + 1:03d}"
+
 
 def validate_date(date_text):
     """Memeriksa apakah format tanggal sesuai YYYY-MM-DD."""
@@ -49,6 +46,7 @@ def choose_priority():
     else:
         return None
 
+
 def print_task_list(task_list):
     """Menampilkan daftar tugas dalam format yang seragam."""
     for task in task_list:
@@ -61,9 +59,7 @@ def print_task_list(task_list):
         print("Status    :", task["status"])
     print("-" * 45)
 
-# ==========================================
-# 1. CREATE TASK (TAMBAH TUGAS)
-# ==========================================
+# CREATE TASK (TAMBAH TUGAS)
 
 def add_task():
     tasks = load_data("tasks")
@@ -106,9 +102,7 @@ def add_task():
     print("ID Tugas :", new_task["id"])
     print("Judul    :", new_task["title"])
 
-# ==========================================
-# 2. READ TASKS (LIHAT DAFTAR TUGAS)
-# ==========================================
+# READ TASKS (LIHAT DAFTAR TUGAS)
 
 def view_tasks():
     tasks = load_data("tasks")
@@ -121,9 +115,7 @@ def view_tasks():
 
     print_task_list(tasks)
 
-# ==========================================
-# 3. UPDATE TASK (UBAH DATA TUGAS)
-# ==========================================
+# UPDATE TASK (UBAH DATA TUGAS)
 
 def update_task():
     tasks = load_data("tasks")
@@ -173,9 +165,7 @@ def update_task():
 
     print("ID tugas tidak ditemukan.")
 
-# ==========================================
-# 4. UPDATE STATUS TUGAS (SELESAI / PENDING)
-# ==========================================
+# UPDATE STATUS TUGAS (SELESAI / PENDING)
 
 def toggle_task_status():
     tasks = load_data("tasks")
@@ -213,9 +203,8 @@ def toggle_task_status():
 
     print("ID tugas tidak ditemukan.")
 
-# ==========================================
-# 5. DELETE TASK (HAPUS TUGAS)
-# ==========================================
+
+# DELETE TASK (HAPUS TUGAS)
 
 def delete_task():
     tasks = load_data("tasks")
@@ -248,9 +237,7 @@ def delete_task():
 
     print("ID tugas tidak ditemukan.")
 
-# ==========================================
-# 6. RINGKASAN AKTIVITAS HARIAN
-# ==========================================
+# RINGKASAN AKTIVITAS HARIAN
 
 def show_task_summary():
     tasks = load_data("tasks")
@@ -283,9 +270,7 @@ def show_task_summary():
 
     print("=" * 48)
 
-# ==========================================
-# 7. CARI TUGAS (SEARCHING)
-# ==========================================
+# CARI TUGAS (SEARCHING)
 
 def search_tasks():
     tasks = load_data("tasks")
@@ -300,48 +285,14 @@ def search_tasks():
     if keyword == "":
         print("Kata kunci tidak boleh kosong.")
         return
-
     results = search_tasks_by_keyword(tasks, keyword)
-
     if len(results) == 0:
         print(f"\nTidak ditemukan tugas dengan kata kunci '{keyword}'.")
     else:
         print(f"\nDitemukan {len(results)} tugas:")
         print_task_list(results)
 
-# ==========================================
-# 8. URUTKAN TUGAS (SORTING)
-# ==========================================
-
-def sort_tasks():
-    tasks = load_data("tasks")
-
-    print("\n========== URUTKAN TUGAS ==========")
-
-    if len(tasks) == 0:
-        print("Belum ada tugas untuk diurutkan.")
-        return
-
-    print("1. Urutkan berdasarkan Deadline (Terdekat)")
-    print("2. Urutkan berdasarkan Prioritas (Tinggi ke Rendah)")
-
-    choice = input("Pilih metode pengurutan (1/2): ").strip()
-
-    if choice == "1":
-        sorted_tasks = sort_tasks_by_deadline(tasks)
-        print("\nDaftar Tugas (Urut Deadline Terdekat):")
-        print_task_list(sorted_tasks)
-    elif choice == "2":
-        sorted_tasks = sort_tasks_by_priority(tasks)
-        print("\nDaftar Tugas (Urut Prioritas Tertinggi):")
-        print_task_list(sorted_tasks)
-    else:
-        print("Pilihan tidak valid.")
-
-
-# ==========================================
 # MENU UTAMA DAILY TASK MANAGER
-# ==========================================
 
 def task_manager_menu():
     while True:
@@ -355,12 +306,9 @@ def task_manager_menu():
         print("5. Hapus Tugas")
         print("6. Ringkasan Aktivitas Harian")
         print("7. Cari Tugas")
-        print("8. Urutkan Tugas")
         print("0. Kembali ke Menu Utama")
         print("=" * 45)
-
         choice = input("Pilih menu: ").strip()
-
         if choice == "1":
             add_task()
         elif choice == "2":
@@ -375,8 +323,6 @@ def task_manager_menu():
             show_task_summary()
         elif choice == "7":
             search_tasks()
-        elif choice == "8":
-            sort_tasks()
         elif choice == "0":
             break
         else:

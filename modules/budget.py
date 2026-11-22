@@ -1,10 +1,7 @@
 
 from modules.storage import load_data, save_data
 
-
-# ==========================================
 # HELPER FUNCTIONS
-# ==========================================
 
 def generate_budget_id(budgets):
     """Membuat ID anggaran secara otomatis."""
@@ -88,10 +85,7 @@ def input_positive_amount(message):
         print("Nominal harus berupa angka bulat.")
         return None
 
-
-# ==========================================
 # CREATE BUDGET
-# ==========================================
 
 def add_budget():
 
@@ -132,10 +126,7 @@ def add_budget():
     print("Kategori :", budget["category"])
     print("Anggaran :", format_rupiah(budget["amount"]))
 
-
-# ==========================================
 # READ BUDGET
-# ==========================================
 
 def view_budgets():
 
@@ -170,10 +161,7 @@ def view_budgets():
 
     print("-" * 50)
 
-
-# ==========================================
 # UPDATE BUDGET
-# ==========================================
 
 def update_budget():
 
@@ -239,10 +227,7 @@ def update_budget():
 
     print("Anggaran tidak ditemukan.")
 
-
-# ==========================================
 # DELETE BUDGET
-# ==========================================
 
 def delete_budget():
 
@@ -282,10 +267,7 @@ def delete_budget():
 
     print("Anggaran tidak ditemukan.")
 
-
-# ==========================================
 # BUDGET REPORT
-# ==========================================
 
 def view_budget_report():
 

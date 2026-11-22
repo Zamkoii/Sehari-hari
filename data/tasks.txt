@@ -1,2 +1,3 @@
 TSK001|KTI Bahasa Indonesia|Penelitian terhadap mahasiswa TRK|2026-11-21|Sedang|Completed
 TSK002|Ngajar Robotik|Mengajar robotik di MTSN 3 Bogor|2026-11-18|Tinggi|Completed
+TSK003|Proyek Dasprog|Membuat sebuah aplikasi sehari-hari|2026-11-30|Sedang|Pending

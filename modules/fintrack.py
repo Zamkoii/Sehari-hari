@@ -3,9 +3,9 @@ from modules.storage import load_data, save_data
 from modules.budget import budget_menu
 from modules.savings_goals import savings_goals_menu
 from modules.dashboard import show_fintrack_dashboard, show_monthly_report
-# ==========================================
+
 # HELPER FUNCTIONS
-# ==========================================
+
 def generate_transaction_id(transactions):
     """Membuat ID transaksi secara otomatis."""
     highest_id = 0
@@ -32,9 +32,7 @@ def format_rupiah(amount):
     """Mengubah angka menjadi format Rupiah."""
     return "Rp" + f"{amount:,.0f}".replace(",", ".")
 
-# ==========================================
 # CREATE TRANSACTION
-# ==========================================
 
 def add_transaction():
     transactions = load_data("transactions")
@@ -95,9 +93,7 @@ def add_transaction():
     print("\nTransaksi berhasil ditambahkan!")
     print("ID:", transaction["id"])
 
-# ==========================================
 # READ TRANSACTIONS
-# ==========================================
 
 def view_transactions():
     transactions = load_data("transactions")
@@ -125,9 +121,7 @@ def view_transactions():
 
     print("-" * 45)
 
-# ==========================================
 # UPDATE TRANSACTION
-# ==========================================
 
 def update_transaction():
     transactions = load_data("transactions")
@@ -184,9 +178,7 @@ def update_transaction():
 
     print("Transaksi tidak ditemukan.")
 
-# ==========================================
 # DELETE TRANSACTION
-# ==========================================
 
 def delete_transaction():
     transactions = load_data("transactions")
@@ -219,9 +211,7 @@ def delete_transaction():
 
     print("Transaksi tidak ditemukan.")
 
-# ==========================================
 # FINTRACK MENU
-# ==========================================
 
 def transaction_management_menu():
     while True:

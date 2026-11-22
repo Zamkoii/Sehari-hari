@@ -26,10 +26,7 @@ def format_rupiah(amount):
     """Mengubah angka menjadi format Rupiah."""
     return f"Rp{amount:,.0f}".replace(",", ".")
 
-
-# ==========================================
 # CREATE SAVINGS GOAL
-# ==========================================
 
 def add_savings_goal():
     """Menambahkan target tabungan baru."""
@@ -81,10 +78,7 @@ def add_savings_goal():
     print(f"Target    : {format_rupiah(target_amount)}")
     print(f"Deadline  : {deadline}")
 
-
-# ==========================================
 # READ SAVINGS GOALS
-# ==========================================
 
 def view_savings_goals():
     """Menampilkan seluruh target tabungan."""
@@ -120,10 +114,7 @@ def view_savings_goals():
 
         print("-" * 55)
 
-
-# ==========================================
 # UPDATE SAVINGS GOAL (TAMBAH TABUNGAN)
-# ==========================================
 
 def add_savings_contribution():
     """Menambahkan uang ke target tabungan."""
@@ -178,10 +169,7 @@ def add_savings_contribution():
     if selected_goal["current_amount"] >= selected_goal["target_amount"]:
         print("Selamat! Target tabungan berhasil tercapai!")
 
-
-# ==========================================
 # DELETE SAVINGS GOAL
-# ==========================================
 
 def delete_savings_goal():
     """Menghapus target tabungan berdasarkan ID."""
@@ -219,10 +207,7 @@ def delete_savings_goal():
 
     print("Target tabungan tidak ditemukan.")
 
-
-# ==========================================
 # MENU SAVINGS GOALS
-# ==========================================
 
 def savings_goals_menu():
     """Menu utama pengelolaan target tabungan."""
